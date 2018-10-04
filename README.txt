@@ -29,5 +29,6 @@ Ports can be a single port, comma seperated , or '-' seperated
 	DONT MIX FORMATS
 
 YOU MUST BE PHYSICALLY CONNECTED TO THE NETWORK TO DO A UDP SCAN
-I was unable to figure out why this but was unable to 
+I was unable to figure out why
+I asked for help with this but was unable to 
 get the problem solved.
