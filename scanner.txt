@@ -142,9 +142,6 @@ def parse_hosts(ip_addr):
     #values are seperated by a comma
     if "," in ip_addr: return ip_addr.split(",")
 
-    #values are seperated by "-"
-    if "-" in ip_addr: return ip_addr.split("-")
-
     #only one host ip was entered
     return [ip_addr]
 
