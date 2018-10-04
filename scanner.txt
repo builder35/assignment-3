@@ -15,7 +15,7 @@ description= "Penetration testing port/ip scanner"
 argument_parser = argparse.ArgumentParser(description = description)
 
 # flags that must be set
-argument_parser.add_argument("-ip_addr",metavar ='I', help="ip_address(es) to scan: format can be a single address, comma seperated,CIDR",nargs='?', const ="127.0.0.1")
+argument_parser.add_argument("-ip_addr",metavar ='I', help="ip_address(es) to scan: format can be a single address, comma seperated,'-' seperated,CIDR",nargs='?', const ="127.0.0.1")
 argument_parser.add_argument("-po",help="port(s) to scan: format can be [p, 1 - n , comma seperated]", nargs='?', const ="80")
 
 #add list of argumens that can be passed aswell as there helpmenu text
@@ -129,7 +129,10 @@ def ping_sweep(hosts,ports):
         output_string = output[0].decode("utf-8")
 
         # if the response says lost = 0 the host is alive and well
-        if "Lost = 0" in output_string: results[host].append(host + " is online")
+        if "Lost = 0" in output_string:
+            results[host].append("\033[1;33;40m"+host + "\033[0m is online")
+        else:
+            results[host].append("\033[1;33;40m"+host + "\033[0m is \033[1;31;40moffline \033[0m")
     return results
 
 # used to parse and format ips given by the user
@@ -141,6 +144,27 @@ def parse_hosts(ip_addr):
 
     #values are seperated by a comma
     if "," in ip_addr: return ip_addr.split(",")
+
+    #values are seperated by "-"
+    if "-" in ip_addr:
+        host_list = []
+        ip_range = ip_addr.split("-")
+        octet_breakdown = ip_range[0].split(".")
+
+        # get the first and last octet of the ip range
+        first_host = int(octet_breakdown[3])
+        last_host = int(ip_range[1])
+
+        octet_range = list(range(first_host,last_host+1))
+
+        # the next two lines just gets the first 3 octets joins them and then outputs the range
+        octet_breakdown.pop()
+        host_network = ".".join(octet_breakdown)
+
+        # generates the ip range but only by the last octet
+        for value in octet_range:
+            host_list.append(host_network + "." +str(value))
+        return host_list
 
     #only one host ip was entered
     return [ip_addr]

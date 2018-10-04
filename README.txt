@@ -22,11 +22,15 @@ All of flags can be used at once exccept for --help it will override the others
 
 Only two flags require user input ( ip_addr and -po ) 
 
-Ip addresses can be comma seperated, CIDR, or just a single adress
+Ip addresses can be comma seperated, CIDR, '-' or just a single address
 	DONT MIX FORMATS
+	with the '-' format enter address like this: 192.168.41-53
 
 Ports can be a single port, comma seperated , or '-' seperated
 	DONT MIX FORMATS
+
+Some of the commands are slow so I created a "poor-mans" progress bar
+that basically just adds a '.' to the output as it scans a host
 
 YOU MUST BE PHYSICALLY CONNECTED TO THE NETWORK TO DO A UDP SCAN
 I was unable to figure out why
